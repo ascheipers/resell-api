@@ -4,6 +4,14 @@
 
 * NodeJS >= 14
 
+## Setup
+
+Install Dependencies
+
+```sh
+npm install
+```
+
 ## Usage
 
 Start Server
