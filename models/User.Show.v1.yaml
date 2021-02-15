@@ -1,0 +1,65 @@
+allOf:
+  - $ref: ./Base.Show.v1.yaml
+  - type: object
+    properties:
+      alias:
+        type: string
+        example: john98
+        maxLength: 30
+      firstName:
+        type: string
+        example: John
+        maxLength: 50
+      lastName:
+        type: string
+        example: Doe
+        maxLength: 50
+      email:
+        type: string
+        format: email
+        example: john.doe@example.com
+        maxLength: 100
+      address:
+        type: object
+        required:
+          - street
+          - city
+          - country
+        properties:
+          street:
+            type: string
+            example: Bulevardi 1
+            maxLength: 50
+          city:
+            type: string
+            example: Helsinki
+            maxLength: 50
+          country:
+            type: string
+            example: Finland
+            maxLength: 50
+      profilePicture:
+        type: string
+        format: uri
+        example: 'https://cdn.scheipe.rs/resell/profileImages/da3352ac-4f2d-4828-8371-a90c36cc3c33.jpg'
+    required:
+      - alias
+      - firstName
+      - lastName
+      - email
+      - address
+      - profilePicture
+x-examples:
+  example-1:
+    id: da3352ac-4f2d-4828-8371-a90c36cc3c33
+    createdAt: '2017-07-21T17:32:28Z'
+    updatedAt: '2018-07-21T17:32:28Z'
+    alias: john98
+    firstName: John
+    lastName: Doe
+    email: john.doe@example.com
+    address:
+      street: Bulevardi 1
+      city: Helsinki
+      country: Finland
+    profilePicture: 'https://cdn.scheipe.rs/resell/profileImages/da3352ac-4f2d-4828-8371-a90c36cc3c33.jpg'

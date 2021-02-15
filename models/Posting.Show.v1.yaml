@@ -1,0 +1,65 @@
+title: Posting.Show
+allOf:
+  - $ref: ./Base.Show.v1.yaml
+  - type: object
+    properties:
+      creator:
+        type: string
+        format: uri
+        example: 'https://api.scheipe.rs/users/da3352ac-4f2d-4828-8371-a90c36cc3c33'
+      title:
+        type: string
+        example: Old Bike
+        maxLength: 30
+      description:
+        type: string
+        example: Old bike of my son for sale. Good condition!
+        maxLength: 1000
+      category:
+        type: string
+        maxLength: 30
+        example: sport>outdoor>bikes
+      location:
+        type: object
+        required:
+          - street
+          - city
+          - country
+        properties:
+          street:
+            type: string
+            example: Bulevardi 1
+            maxLength: 50
+          city:
+            type: string
+            example: Helsinki
+            maxLength: 50
+          country:
+            type: string
+            example: Finland
+            maxLength: 50
+      images:
+        allOf:
+          - items:
+              $ref: ./PostingImage.Show.v1.yaml
+        type: array
+      askingPrice:
+        type: number
+        format: float
+        example: 25.02
+        minimum: 0
+      deliveryType:
+        type: string
+        enum:
+          - shipping
+          - pickup
+        example: pickup
+    required:
+      - creator
+      - title
+      - description
+      - category
+      - location
+      - images
+      - askingPrice
+      - deliveryType

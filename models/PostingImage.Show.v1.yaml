@@ -1,0 +1,11 @@
+title: PostingImage.Show
+allOf:
+  - $ref: ./Base.Show.v1.yaml
+  - type: object
+    properties:
+      uri:
+        type: string
+        format: uri
+        example: 'https://cdn.scheipe.rs/resell/postingImages/242a5be4-8ca4-490f-b594-626a69461afc.jpg'
+    required:
+      - uri

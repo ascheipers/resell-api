@@ -1,0 +1,66 @@
+title: User.Create
+type: object
+x-examples:
+  example-1:
+    alias: john98
+    firstName: John
+    lastName: Doe
+    email: john.doe@example.com
+    address:
+      street: Bulevardi 1
+      city: Helsinki
+      country: Finland
+    password: 1234;)
+    profilePicture: iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=
+properties:
+  alias:
+    type: string
+    example: john98
+    maxLength: 30
+  firstName:
+    type: string
+    example: John
+    maxLength: 50
+  lastName:
+    type: string
+    example: Doe
+    maxLength: 50
+  email:
+    type: string
+    format: email
+    example: john.doe@example.com
+    maxLength: 100
+  address:
+    type: object
+    required:
+      - street
+      - city
+      - country
+    properties:
+      street:
+        type: string
+        example: Bulevardi 1
+        maxLength: 50
+      city:
+        type: string
+        example: Helsinki
+        maxLength: 50
+      country:
+        type: string
+        example: Finland
+        maxLength: 50
+  password:
+    type: string
+    format: password
+    example: 1234;)
+    maxLength: 50
+  profilePicture:
+    type: string
+    example: +A8AAQUBAScY42YAAAAASUVORK5CYII=
+required:
+  - alias
+  - firstName
+  - lastName
+  - email
+  - address
+  - password

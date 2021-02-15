@@ -1,0 +1,16 @@
+title: Error.Show
+type: object
+x-examples:
+  example-1:
+    errorCode: E100
+    errorMessage: Something did not work!
+properties:
+  errorCode:
+    type: string
+    example: E100
+  errorMessage:
+    type: string
+    example: Something did not work!
+required:
+  - errorCode
+  - errorMessage

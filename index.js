@@ -14,7 +14,7 @@ var oasTools = require('oas-tools');
 var jsyaml = require('js-yaml');
 var serverPort = 8080;
 
-var spec = fs.readFileSync(path.join(__dirname, '/api/oas-doc.yaml'), 'utf8');
+var spec = fs.readFileSync(path.join(__dirname, '/reference/resell.v1.yaml'), 'utf8');
 var oasDoc = jsyaml.safeLoad(spec);
 
 var options_object = {
@@ -35,12 +35,5 @@ oasTools.initialize(oasDoc, app, function() {
       console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
       console.log("________________________________________________________________");
     }
-  });
-});
-
-app.get('/info', function(req, res) {
-  res.send({
-    info: "This API was generated using oas-generator!",
-    name: oasDoc.info.title
   });
 });

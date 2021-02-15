@@ -1,0 +1,41 @@
+title: Posting.Update
+type: object
+properties:
+  title:
+    type: string
+    example: Old Bike
+    maxLength: 30
+  description:
+    type: string
+    example: Old bike of my son for sale. Good condition!
+    maxLength: 1000
+  category:
+    type: string
+    maxLength: 30
+    example: sport>outdoor>bikes
+  location:
+    type: object
+    properties:
+      street:
+        type: string
+        example: Bulevardi 1
+        maxLength: 50
+      city:
+        type: string
+        example: Helsinki
+        maxLength: 50
+      country:
+        type: string
+        example: Finland
+        maxLength: 50
+  askingPrice:
+    type: number
+    format: float
+    example: 25.02
+    minimum: 0
+  deliveryType:
+    type: string
+    enum:
+      - shipping
+      - pickup
+    example: pickup
