@@ -1,0 +1,744 @@
+openapi: 3.0.0
+info:
+  title: resell
+  version: '1.0'
+  description: >-
+    Web application API with the primary function to serve as a platform for
+    selling and buying used items.
+  contact:
+    name: Andreas Scheipers
+    url: 'https://scheipe.rs'
+    email: andreas@scheipe.rs
+  termsOfService: 'https://api.scheipe.rs/tos/resell/v1'
+  license:
+    url: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+    name: GPLv2
+servers:
+  - url: 'https://api.scheipe.rs/resell/v1'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: da3352ac-4f2d-4828-8371-a90c36cc3c33
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Show User Details
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_Show.v1'
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+              examples: {}
+      operationId: get-users-userId
+      description: Show the details of a specific user.
+  /users:
+    post:
+      summary: Create New User
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Base_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+              examples:
+                example-1:
+                  value:
+                    errorCode: E100
+                    errorMessage: User with this data already exists.
+      operationId: post-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User_Create.v1'
+      description: Allows users to register and provide their personal information.
+  /login:
+    post:
+      summary: Login With User Credentials
+      tags: []
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - properties:
+                    alias:
+                      type: string
+                      example: john98
+                    password:
+                      type: string
+                      format: password
+                      example: 1234;)
+                  required:
+                    - alias
+                    - password
+                - properties:
+                    email:
+                      type: string
+                      format: email
+                      example: john.doe@example.com
+                    password:
+                      type: string
+                      format: password
+                      example: 1234;)
+                  required:
+                    - email
+                    - password
+              type: object
+        description: >-
+          Login information of a user. A password and either an alias or an
+          email.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 59a371548df78103099830fe60804077f6ee33d4
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+              examples:
+                example-1:
+                  value:
+                    errorCode: E101
+                    errorMessage: Wrong credentials!
+      description: Allows users to login with a password and either an alias or an email.
+      security: []
+  /postings:
+    get:
+      summary: Search and List Postings
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Posting_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: get-postings
+      description: List of postings.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: category
+          description: Category name of a posting.
+        - schema:
+            type: string
+          in: query
+          name: location
+          description: Location of a posting.
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: Creation date of a posting.
+    post:
+      summary: Create New Posting
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posting_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: post-postings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Posting_Create.v1'
+        description: ''
+      description: Create a new posting.
+  '/postings/{postingId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: 2537b7df-9852-4920-a255-9b597d30bb18
+        name: postingId
+        in: path
+        required: true
+        description: The ID of a specific posting.
+    get:
+      summary: Show Posting Details
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posting_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: get-postings-postingId
+      description: Detailed view of a posting.
+    delete:
+      summary: Delete Existing Posting
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: delete-postings-postingId
+      description: Delete a specific posting.
+    put:
+      summary: Update Existing Posting
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posting_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: put-postings-postingId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Posting_Create.v1'
+      description: Update posting information.
+    patch:
+      summary: Update Existing Posting
+      tags: []
+      operationId: patch-postings-postingId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posting_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+              examples: {}
+      description: Update posting information.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/Posting_Update.v1'
+  '/postings/{postingId}/images':
+    parameters:
+      - schema:
+          type: string
+        name: postingId
+        in: path
+        required: true
+        description: The ID of a specific posting.
+    get:
+      summary: Posting Image List
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostingImage_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: get-postings-postingId-images
+      description: List of posting images.
+    post:
+      summary: Upload New Image
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostingImage_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: post-postings-postingId-images
+      description: Upload a new image for a posting.
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        description: Binary file of an image.
+  '/postings/{postingId}/images/{imageId}':
+    parameters:
+      - schema:
+          type: string
+        name: postingId
+        in: path
+        required: true
+        description: The ID of a specific posting.
+      - schema:
+          type: string
+        name: imageId
+        in: path
+        required: true
+        description: The ID of a specific posting image.
+    get:
+      summary: Posting Image Detail View
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostingImage_Show.v1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: get-postings-postingId-images-imageId
+      description: Detailed view of a specific posting image.
+    delete:
+      summary: Delete Posting Image
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Show.v1'
+      operationId: delete-postings-postingId-images-imageId
+      description: Delete a specific posting image.
+components:
+  schemas:
+    Base_Show.v1:
+      title: Base.Show
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: da3352ac-4f2d-4828-8371-a90c36cc3c33
+        createdAt:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2018-07-21T17:32:28Z'
+      required:
+        - id
+        - createdAt
+        - updatedAt
+    Error_Show.v1:
+      title: Error.Show
+      type: object
+      x-examples:
+        example-1:
+          errorCode: E100
+          errorMessage: Something did not work!
+      properties:
+        errorCode:
+          type: string
+          example: E100
+        errorMessage:
+          type: string
+          example: Something did not work!
+      required:
+        - errorCode
+        - errorMessage
+    Posting_Create.v1:
+      title: Posting.Create
+      type: object
+      properties:
+        title:
+          type: string
+          example: Old Bike
+          maxLength: 30
+        description:
+          type: string
+          example: Old bike of my son for sale. Good condition!
+          maxLength: 1000
+        category:
+          type: string
+          maxLength: 30
+          example: sport>outdoor>bikes
+        location:
+          type: object
+          required:
+            - street
+            - city
+            - country
+          properties:
+            street:
+              type: string
+              example: Bulevardi 1
+              maxLength: 50
+            city:
+              type: string
+              example: Helsinki
+              maxLength: 50
+            country:
+              type: string
+              example: Finland
+              maxLength: 50
+        askingPrice:
+          type: number
+          format: float
+          example: 25.02
+          minimum: 0
+        deliveryType:
+          type: string
+          enum:
+            - shipping
+            - pickup
+          example: pickup
+      required:
+        - title
+        - description
+        - category
+        - location
+        - askingPrice
+        - deliveryType
+    Posting_Show.v1:
+      title: Posting.Show
+      allOf:
+        - $ref: '#/components/schemas/Base_Show.v1'
+        - type: object
+          properties:
+            creator:
+              type: string
+              format: uri
+              example: >-
+                https://api.scheipe.rs/users/da3352ac-4f2d-4828-8371-a90c36cc3c33
+            title:
+              type: string
+              example: Old Bike
+              maxLength: 30
+            description:
+              type: string
+              example: Old bike of my son for sale. Good condition!
+              maxLength: 1000
+            category:
+              type: string
+              maxLength: 30
+              example: sport>outdoor>bikes
+            location:
+              type: object
+              required:
+                - street
+                - city
+                - country
+              properties:
+                street:
+                  type: string
+                  example: Bulevardi 1
+                  maxLength: 50
+                city:
+                  type: string
+                  example: Helsinki
+                  maxLength: 50
+                country:
+                  type: string
+                  example: Finland
+                  maxLength: 50
+            images:
+              allOf:
+                - items:
+                    $ref: '#/components/schemas/PostingImage_Show.v1'
+              type: array
+            askingPrice:
+              type: number
+              format: float
+              example: 25.02
+              minimum: 0
+            deliveryType:
+              type: string
+              enum:
+                - shipping
+                - pickup
+              example: pickup
+          required:
+            - creator
+            - title
+            - description
+            - category
+            - location
+            - images
+            - askingPrice
+            - deliveryType
+    Posting_Update.v1:
+      title: Posting.Update
+      type: object
+      properties:
+        title:
+          type: string
+          example: Old Bike
+          maxLength: 30
+        description:
+          type: string
+          example: Old bike of my son for sale. Good condition!
+          maxLength: 1000
+        category:
+          type: string
+          maxLength: 30
+          example: sport>outdoor>bikes
+        location:
+          type: object
+          properties:
+            street:
+              type: string
+              example: Bulevardi 1
+              maxLength: 50
+            city:
+              type: string
+              example: Helsinki
+              maxLength: 50
+            country:
+              type: string
+              example: Finland
+              maxLength: 50
+        askingPrice:
+          type: number
+          format: float
+          example: 25.02
+          minimum: 0
+        deliveryType:
+          type: string
+          enum:
+            - shipping
+            - pickup
+          example: pickup
+    PostingImage_Show.v1:
+      title: PostingImage.Show
+      allOf:
+        - $ref: '#/components/schemas/Base_Show.v1'
+        - type: object
+          properties:
+            uri:
+              type: string
+              format: uri
+              example: >-
+                https://cdn.scheipe.rs/resell/postingImages/242a5be4-8ca4-490f-b594-626a69461afc.jpg
+          required:
+            - uri
+    User_Create.v1:
+      title: User.Create
+      type: object
+      x-examples:
+        example-1:
+          alias: john98
+          firstName: John
+          lastName: Doe
+          email: john.doe@example.com
+          address:
+            street: Bulevardi 1
+            city: Helsinki
+            country: Finland
+          password: 1234;)
+          profilePicture: >-
+            iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=
+      properties:
+        alias:
+          type: string
+          example: john98
+          maxLength: 30
+        firstName:
+          type: string
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+          maxLength: 100
+        address:
+          type: object
+          required:
+            - street
+            - city
+            - country
+          properties:
+            street:
+              type: string
+              example: Bulevardi 1
+              maxLength: 50
+            city:
+              type: string
+              example: Helsinki
+              maxLength: 50
+            country:
+              type: string
+              example: Finland
+              maxLength: 50
+        password:
+          type: string
+          format: password
+          example: 1234;)
+          maxLength: 50
+        profilePicture:
+          type: string
+          example: +A8AAQUBAScY42YAAAAASUVORK5CYII=
+      required:
+        - alias
+        - firstName
+        - lastName
+        - email
+        - address
+        - password
+    User_Show.v1:
+      allOf:
+        - $ref: '#/components/schemas/Base_Show.v1'
+        - type: object
+          properties:
+            alias:
+              type: string
+              example: john98
+              maxLength: 30
+            firstName:
+              type: string
+              example: John
+              maxLength: 50
+            lastName:
+              type: string
+              example: Doe
+              maxLength: 50
+            email:
+              type: string
+              format: email
+              example: john.doe@example.com
+              maxLength: 100
+            address:
+              type: object
+              required:
+                - street
+                - city
+                - country
+              properties:
+                street:
+                  type: string
+                  example: Bulevardi 1
+                  maxLength: 50
+                city:
+                  type: string
+                  example: Helsinki
+                  maxLength: 50
+                country:
+                  type: string
+                  example: Finland
+                  maxLength: 50
+            profilePicture:
+              type: string
+              format: uri
+              example: >-
+                https://cdn.scheipe.rs/resell/profileImages/da3352ac-4f2d-4828-8371-a90c36cc3c33.jpg
+          required:
+            - alias
+            - firstName
+            - lastName
+            - email
+            - address
+            - profilePicture
+      x-examples:
+        example-1:
+          id: da3352ac-4f2d-4828-8371-a90c36cc3c33
+          createdAt: '2017-07-21T17:32:28Z'
+          updatedAt: '2018-07-21T17:32:28Z'
+          alias: john98
+          firstName: John
+          lastName: Doe
+          email: john.doe@example.com
+          address:
+            street: Bulevardi 1
+            city: Helsinki
+            country: Finland
+          profilePicture: >-
+            https://cdn.scheipe.rs/resell/profileImages/da3352ac-4f2d-4828-8371-a90c36cc3c33.jpg
+  securitySchemes:
+    Token - 1:
+      type: http
+      scheme: bearer
+      description: 'Token in header starting with "Bearer" (e.g.: "Bearer 59a371548...").'
+security:
+  - Token - 1: []

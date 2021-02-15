@@ -14,7 +14,7 @@ var oasTools = require('oas-tools');
 var jsyaml = require('js-yaml');
 var serverPort = 8080;
 
-var spec = fs.readFileSync(path.join(__dirname, '/reference/resell.v1.yaml'), 'utf8');
+var spec = fs.readFileSync(path.join(__dirname, '/reference/resell.dereferenced.v1.yaml'), 'utf8');
 var oasDoc = jsyaml.safeLoad(spec);
 
 var options_object = {
