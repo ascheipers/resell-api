@@ -12,6 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    toJSON() {
+      let attributes = Object.assign({}, this.get());
+
+      delete attributes['password'];
+      delete attributes['address_street'];
+      delete attributes['address_city'];
+      delete attributes['address_country'];
+      
+      return attributes;
+    }
   };
   User.init({
     id: {
