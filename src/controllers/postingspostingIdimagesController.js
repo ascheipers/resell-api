@@ -11,5 +11,12 @@ module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(
 };
 
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
-  varpostingspostingIdimagesController.postpostingspostingIdimages(req.swagger.params, res, next);
+  var data = Buffer.from('');
+  req.on('data', function(chunk) {
+      data = Buffer.concat([data, chunk]);
+  });
+  req.on('end', function() {
+    req.rawBody = data;
+    varpostingspostingIdimagesController.postpostingspostingIdimages(req, res, next);
+  });
 };

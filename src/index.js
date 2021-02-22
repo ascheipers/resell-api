@@ -27,6 +27,8 @@ var options_object = {
 
 oasTools.configure(options_object);
 
+app.use('/resell/images', express.static('resell-images'));
+
 oasTools.initialize(oasDoc, app, function() {
   http.createServer(app).listen(serverPort, function() {
     console.log("App running at http://localhost:" + serverPort);
