@@ -17,7 +17,7 @@ module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
   if (req.rawBody) {
     try {
-      storeImage(req.rawBody, path.join(process.cwd(), 'resell-images')).then(imageId => {
+      storeImage(req.rawBody, path.join(process.cwd(), 'resell-images'), req.swagger.params.postingId.value).then(imageId => {
         res.send({ id: imageId });
       });
     } catch (error) {
