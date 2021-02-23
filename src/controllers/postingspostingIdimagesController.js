@@ -16,7 +16,9 @@ module.exports.postpostingspostingIdimages = function postpostingspostingIdimage
       data = Buffer.concat([data, chunk]);
   });
   req.on('end', function() {
-    req.rawBody = data;
+    if (data.length > 0) {
+      req.rawBody = data;
+    }
     varpostingspostingIdimagesController.postpostingspostingIdimages(req, res, next);
   });
 };

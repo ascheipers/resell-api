@@ -17,8 +17,9 @@ module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
   if (req.rawBody) {
     try {
-      const imageId = storeImage(req.rawBody, path.join(process.cwd(), 'resell-images'));
-      res.send({ id: imageId });
+      storeImage(req.rawBody, path.join(process.cwd(), 'resell-images')).then(imageId => {
+        res.send({ id: imageId });
+      });
     } catch (error) {
       res.status(400).send({ errorCode: 'E400', errorMessage: 'There was a problem processing your image.' });
     }

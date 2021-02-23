@@ -1,17 +1,22 @@
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const models = require('../../models');
 
-function storeImage(buffer, location) {
-  const id = uuidv4();
+async function storeImage(buffer, location) {
+  // TODO: verify is image
 
-  fs.writeFileSync(path.join(location, id + '.jpg'), buffer, { flag: 'wx' }, err => {
+  const dbImage = models.Image.build({});
+
+  await fs.writeFile(path.join(location, dbImage.id + '.jpg'), buffer, { flag: 'wx' }, err => {
     if (err) {
       throw err;
     }
   });
 
-  return id;
+  await dbImage.save();
+
+  return dbImage.id;
 }
 
 exports.storeImage = storeImage;
