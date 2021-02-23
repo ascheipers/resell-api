@@ -10,6 +10,7 @@ module.exports = {
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
       alias: {
+        unique: true,
         type: Sequelize.STRING(30)
       },
       firstName: {
@@ -31,7 +32,7 @@ module.exports = {
         type: Sequelize.STRING(50)
       },
       profilePicture: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       password: {
         type: Sequelize.STRING

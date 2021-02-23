@@ -1,7 +1,11 @@
 'use strict'
 
+const models = require('../../models');
+
 module.exports.postusers = function postusers(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for postusers'
+  const userData = req.undefined.value;
+
+  models.User.create(userData).then(user => {
+    res.send(user);
   });
 };

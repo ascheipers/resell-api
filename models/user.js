@@ -1,4 +1,7 @@
 'use strict';
+
+const { hash } = require('../src/util/hash');
+
 const {
   Model
 } = require('sequelize');
@@ -30,7 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    alias: DataTypes.STRING(30),
+    alias: {
+      unique: true,
+      type: DataTypes.STRING(30),
+    },
     firstName: DataTypes.STRING(50),
     lastName: DataTypes.STRING(50),
     email: DataTypes.STRING(100),
@@ -61,11 +67,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    profilePicture: DataTypes.STRING,
+    profilePicture: DataTypes.TEXT,
     password: {
       type: DataTypes.STRING,
       set(value) {
-        this.setDataValue('password', hash(value));
+        hash(value).then(h => {
+          this.setDataValue('password', h);
+        });
       }
     },
     createdAt: {
