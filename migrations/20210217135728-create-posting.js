@@ -9,7 +9,13 @@ module.exports = {
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
       creator: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       title: {
         type: Sequelize.STRING(30)

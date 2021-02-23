@@ -10,9 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Posting.belongsTo(models.User, {
-        foreignKey: 'creator',
-      });
+      Posting.belongsTo(models.User, { foreignKey: 'creator' });
 
       Posting.hasMany(models.Image, { as: 'images', foreignKey: 'posting' });
     }
@@ -33,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    creator: DataTypes.UUID,
     title: DataTypes.STRING(30),
     description: DataTypes.STRING(1000),
     category: DataTypes.STRING(30),
