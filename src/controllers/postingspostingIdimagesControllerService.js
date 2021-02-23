@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const models = require('../../models');
+const { IMG_PATH } = require('../util/settings');
 
 async function storeImage(buffer, location, posting) {
   // TODO: verify is image
@@ -17,7 +18,7 @@ async function storeImage(buffer, location, posting) {
 
   await dbImage.save();
 
-  return dbImage.id;
+  return dbImage;
 }
 
 module.exports.funcpostingspostingIdimagesPARAMETERS = function funcpostingspostingIdimagesPARAMETERS(req, res, next) {
@@ -27,16 +28,16 @@ module.exports.funcpostingspostingIdimagesPARAMETERS = function funcpostingspost
 };
 
 module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for getpostingspostingIdimages'
+models.Image.findAll({ where: { 'posting': req.postingId.value }}).then(images => {
+    res.send(images);
   });
 };
 
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
   if (req.rawBody) {
     try {
-      storeImage(req.rawBody, path.join(process.cwd(), 'resell-images'), req.swagger.params.postingId.value).then(imageId => {
-        res.send({ id: imageId });
+      storeImage(req.rawBody, IMG_PATH, req.swagger.params.postingId.value).then(image => {
+        res.send(image);
       });
     } catch (error) {
       res.status(400).send({ errorCode: 'E400', errorMessage: 'There was a problem processing your image.' });
