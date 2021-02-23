@@ -14,20 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Image.belongsTo(models.Posting, { foreignKey: 'posting' });
     }
-
-    toJSON() {
-      let attributes = Object.assign({}, this.get());
-
-      attributes['uri'] = `${HOST_NAME}:${HOST_PORT}/${IMG_ROUTE}/${attributes.id}`;
-
-      return attributes;
-    }
   };
   Image.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
+    },
+    uri: {
+      type: DataTypes.VIRTUAL,
+      get () {
+        return `${HOST_NAME}:${HOST_PORT}/${IMG_ROUTE}/${this.id}.jpg`;
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
