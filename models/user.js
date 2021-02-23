@@ -39,7 +39,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: DataTypes.STRING(50),
     lastName: DataTypes.STRING(50),
-    email: DataTypes.STRING(100),
+    email: {
+      unique: true,
+      type: DataTypes.STRING(100),
+    },
     address_street: DataTypes.STRING(50),
     address_city: DataTypes.STRING(50),
     address_country: DataTypes.STRING(50),
