@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'creator',
       });
 
-      // TODO: Posting.hasMany(models.Image)
+      Posting.hasMany(models.Image, { as: 'images', foreignKey: 'posting' });
     }
 
     toJSON() {
