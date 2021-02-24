@@ -15,8 +15,8 @@ function verifyToken (req, res, next) {
       if (err) {
         throw 'Unauthorized.';
       }
-      req.userId = decoded.id;
-      next(req, res, next);
+      req.swagger.params.userId = decoded.id;
+      next(req.swagger.params, res, next);
     });
   } catch (error) {
     return res.status(400).send({ errorCode: 'E400', errorMessage: error });
