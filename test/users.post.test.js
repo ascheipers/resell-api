@@ -3,8 +3,7 @@ const request = require('supertest');
 const expressApp = require('../src/app');
 const patterns = require('./utils').patterns;
 
-describe('POST /users', async () => {
-  const app = await expressApp();
+describe('POST /users', () => {
   const userData = {
     alias: 'andi',
     firstName: 'Andreas',
@@ -20,6 +19,7 @@ describe('POST /users', async () => {
   }
 
   it('should allow a new user to register', async () => {
+    const app = await expressApp();
     const res = await request(app)
       .post('/resell/v1/users')
       .send(userData)
@@ -38,6 +38,7 @@ describe('POST /users', async () => {
   });
 
   it('should not allow duplicate aliases or emails', async () => {
+    const app = await expressApp();
     const res = await request(app)
       .post('/resell/v1/users')
       .send(userData)
