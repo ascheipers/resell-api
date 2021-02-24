@@ -13,6 +13,6 @@ module.exports.postpostings = function postpostings(req, res, next) {
   postingData.creator = req.loggedInUser;
 
   models.Posting.create(postingData).then(posting => {
-    res.send(posting);
+    res.send({ ...posting.toJSON(), images: [] });
   });
 };

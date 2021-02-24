@@ -62,7 +62,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     askingPrice: DataTypes.DECIMAL(7,2),
-    deliveryType: DataTypes.ENUM('shipping', 'pickup')
+    deliveryType: DataTypes.ENUM('shipping', 'pickup'),
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      onUpdate : DataTypes.NOW,
+    }
   }, {
     sequelize,
     modelName: 'Posting',
