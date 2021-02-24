@@ -19,7 +19,7 @@ module.exports.postpostingspostingIdimages = function postpostingspostingIdimage
   });
   req.on('end', function() {
     if (data.length > 0) {
-      req.rawBody = data;
+      req.swagger.params.rawBody = data;
     }
     verifyToken(req, res, varpostingspostingIdimagesController.postpostingspostingIdimages);
   });

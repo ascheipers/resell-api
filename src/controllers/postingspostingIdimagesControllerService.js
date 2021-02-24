@@ -36,7 +36,7 @@ models.Image.findAll({ where: { 'posting': req.postingId.value }}).then(images =
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
   if (req.rawBody) {
     try {
-      storeImage(req.rawBody, IMG_PATH, req.swagger.params.postingId.value).then(image => {
+      storeImage(req.rawBody, IMG_PATH, req.postingId.value).then(image => {
         res.send(image);
       });
     } catch (error) {
