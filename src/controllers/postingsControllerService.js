@@ -1,13 +1,18 @@
 'use strict'
 
+const models = require('../../models');
+
 module.exports.getpostings = function getpostings(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for getpostings'
+  models.Posting.findAll().then(postings => {
+    res.send(postings);
   });
 };
 
 module.exports.postpostings = function postpostings(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for postpostings'
+  const postingData = req.undefined.value;
+  postingData.creator = req.userId;
+
+  models.Posting.create(postingData).then(posting => {
+    res.send(posting);
   });
 };
