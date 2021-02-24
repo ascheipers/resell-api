@@ -9,5 +9,5 @@ module.exports.funcusersuserIdPARAMETERS = function funcusersuserIdPARAMETERS(re
 };
 
 module.exports.getusersuserId = function getusersuserId(req, res, next) {
-  verifyToken(req, res, varusersuserIdController.getusersuserId);
+  varusersuserIdController.getusersuserId(req.swagger.params, res, next);
 };

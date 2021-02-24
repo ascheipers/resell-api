@@ -9,7 +9,7 @@ module.exports.funcpostingspostingIdPARAMETERS = function funcpostingspostingIdP
 };
 
 module.exports.getpostingspostingId = function getpostingspostingId(req, res, next) {
-  verifyToken(req, res, varpostingspostingIdController.getpostingspostingId);
+  varpostingspostingIdController.getpostingspostingId(req.swagger.params, res, next);
 };
 
 module.exports.deletepostingspostingId = function deletepostingspostingId(req, res, next) {

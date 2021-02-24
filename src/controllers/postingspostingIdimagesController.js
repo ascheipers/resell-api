@@ -9,7 +9,7 @@ module.exports.funcpostingspostingIdimagesPARAMETERS = function funcpostingspost
 };
 
 module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(req, res, next) {
-  verifyToken(req, res, varpostingspostingIdimagesController.getpostingspostingIdimages);
+  varpostingspostingIdimagesController.getpostingspostingIdimages(req.swagger.params, res, next);
 };
 
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
