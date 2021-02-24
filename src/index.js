@@ -1,42 +1,18 @@
 'use strict';
 
+const http = require('http');
+const expressApp = require('./app');
 const { HOST_PORT } = require('./util/settings');
 
-var fs = require('fs'),
-    http = require('http'),
-    path = require('path');
 
-var express = require("express");
-var app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser.json({
-  strict: false
-}));
-var oasTools = require('oas-tools');
-var jsyaml = require('js-yaml');
-
-var spec = fs.readFileSync(path.join(__dirname, '../reference/resell.dereferenced.v1.yaml'), 'utf8');
-var oasDoc = jsyaml.safeLoad(spec);
-
-var options_object = {
-  controllers: path.join(__dirname, './controllers'),
-  loglevel: 'info',
-  strict: false,
-  router: true,
-  validator: true
-};
-
-oasTools.configure(options_object);
-
-app.use('/resell/images', express.static('resell-images'));
-
-oasTools.initialize(oasDoc, app, function() {
-  http.createServer(app).listen(HOST_PORT, function() {
+async function startServer() {
+  const app = await expressApp();
+  http.createServer(app).listen(HOST_PORT, () => {
     console.log("App running at http://localhost:" + HOST_PORT);
     console.log("________________________________________________________________");
-    if (options_object.docs !== false) {
-      console.log('API docs (Swagger UI) available on http://localhost:' + HOST_PORT + '/docs');
-      console.log("________________________________________________________________");
-    }
+    console.log('API docs (Swagger UI) available on http://localhost:' + HOST_PORT + '/docs');
+    console.log("________________________________________________________________");
   });
-});
+}
+
+startServer();

@@ -5,9 +5,12 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "test": "cross-env NODE_ENV=test mocha --timeout 10000",
+    "pretest": "cross-env NODE_ENV=test npm run db:reset",
     "db:create": "npx sequelize-cli db:create",
+    "db:create:test": "cross-env NODE_ENV=test npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
-    "db:g:migration": "npx sequelize-cli migration:generate --name"
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate"
   },
   "keywords": [
     "OAI"
@@ -30,6 +33,10 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.2.0"
+    "chai": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "mocha": "^8.3.0",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.3"
   }
 }
