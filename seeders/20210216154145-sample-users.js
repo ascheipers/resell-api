@@ -14,7 +14,7 @@ module.exports = {
           address_city: 'Helsinki',
           address_country: 'Finland',
           profilePicture: 'https://dummyimage.com/50x50/000/fff',
-          password: await hash('1234'),
+          password: hash('1234'),
         },
       ],
       {}

@@ -74,9 +74,8 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       set(value) {
-        hash(value).then(h => {
-          this.setDataValue('password', h);
-        });
+        const h = hash(value);
+        this.setDataValue('password', h);
       }
     },
     createdAt: {

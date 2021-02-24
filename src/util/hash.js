@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-async function hash(password) {
-  const result = await bcrypt.hash(password, saltRounds);
+function hash(password) {
+  const result = bcrypt.hashSync(password, saltRounds);
   return result;
 }
 
-async function check(password, hash) {
-  const result = await bcrypt.compare(password, hash);
+function check(password, hash) {
+  const result = bcrypt.compareSync(password, hash);
   return result;
 }
 
