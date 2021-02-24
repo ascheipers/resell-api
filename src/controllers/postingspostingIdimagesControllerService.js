@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const FileType = require('file-type');
 const models = require('../../models');
 const { IMG_PATH } = require('../util/settings');
 
@@ -34,15 +35,25 @@ models.Image.findAll({ where: { 'posting': req.postingId.value }}).then(images =
 };
 
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
-  if (req.rawBody) {
-    try {
-      storeImage(req.rawBody, IMG_PATH, req.postingId.value).then(image => {
-        res.send(image);
-      });
-    } catch (error) {
-      res.status(400).send({ errorCode: 'E400', errorMessage: 'There was a problem processing your image.' });
+  try {
+    if (req.rawBody) {
+      FileType.fromBuffer(req.rawBody).then(ft => {
+        if (ft.mime === 'image/jpeg') {
+          try {
+            storeImage(req.rawBody, IMG_PATH, req.postingId.value).then(image => {
+              res.send(image);
+            });
+          } catch (error) {
+            throw'There was a problem processing your image.';
+          }
+        } else {
+          throw 'Image must be of a JPEG.';
+        }
+      })
+    } else {
+      throw 'No image in body found.';
     }
-  } else {
-    res.status(400).send({ errorCode: 'E400', errorMessage: 'No image in body found.' });
+  } catch (error) {
+    res.status(400).send({ errorCode: 'E400', errorMessage: error });
   }
 };
