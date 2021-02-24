@@ -1,11 +1,13 @@
 'use strict'
 
+const verifyToken = require('../middleware/verifyToken');
+
 var varusersuserIdController = require('./usersuserIdControllerService');
 
 module.exports.funcusersuserIdPARAMETERS = function funcusersuserIdPARAMETERS(req, res, next) {
-  varusersuserIdController.funcusersuserIdPARAMETERS(req.swagger.params, res, next);
+  verifyToken(req, res, varusersuserIdController.funcusersuserIdPARAMETERS);
 };
 
 module.exports.getusersuserId = function getusersuserId(req, res, next) {
-  varusersuserIdController.getusersuserId(req.swagger.params, res, next);
+  verifyToken(req, res, varusersuserIdController.getusersuserId);
 };

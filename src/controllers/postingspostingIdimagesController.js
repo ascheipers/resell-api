@@ -1,13 +1,15 @@
 'use strict'
 
+const verifyToken = require('../middleware/verifyToken');
+
 var varpostingspostingIdimagesController = require('./postingspostingIdimagesControllerService');
 
 module.exports.funcpostingspostingIdimagesPARAMETERS = function funcpostingspostingIdimagesPARAMETERS(req, res, next) {
-  varpostingspostingIdimagesController.funcpostingspostingIdimagesPARAMETERS(req.swagger.params, res, next);
+  verifyToken(req, res, varpostingspostingIdimagesController.funcpostingspostingIdimagesPARAMETERS);
 };
 
 module.exports.getpostingspostingIdimages = function getpostingspostingIdimages(req, res, next) {
-  varpostingspostingIdimagesController.getpostingspostingIdimages(req.swagger.params, res, next);
+  verifyToken(req, res, varpostingspostingIdimagesController.getpostingspostingIdimages);
 };
 
 module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
@@ -19,6 +21,6 @@ module.exports.postpostingspostingIdimages = function postpostingspostingIdimage
     if (data.length > 0) {
       req.rawBody = data;
     }
-    varpostingspostingIdimagesController.postpostingspostingIdimages(req, res, next);
+    verifyToken(req, res, varpostingspostingIdimagesController.postpostingspostingIdimages);
   });
 };
