@@ -15,7 +15,7 @@ function verifyToken (req, res, next) {
       if (err) {
         throw 'Unauthorized.';
       }
-      req.swagger.params.userId = decoded.id;
+      req.swagger.params.loggedInUser = decoded.id;
       next(req.swagger.params, res, next);
     });
   } catch (error) {
