@@ -31,7 +31,5 @@ describe('GET /postings', () => {
       expect(posting.createdAt).to.match(patterns.DateTime);
       expect(posting.updatedAt).to.match(patterns.DateTime);
     });
-
-    process.env.TEST_POSTING_ID = res.body.id;
   });
 });

@@ -21,6 +21,8 @@ describe('POST /postings/{postingId}/images', () => {
     expect(res.body.uri).to.match(patterns.URI);
     expect(res.body.createdAt).to.match(patterns.DateTime);
     expect(res.body.updatedAt).to.match(patterns.DateTime);
+
+    process.env.TEST_IMAGE_ID = res.body.id;
   });
 
   it('should not allow unauthenticated users to create a new posting', async () => {

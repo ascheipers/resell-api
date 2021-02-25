@@ -71,5 +71,5 @@ module.exports.putpostingspostingId = function putpostingspostingId(req, res, ne
 };
 
 module.exports.patchpostingspostingId = function patchpostingspostingId(req, res, next) {
-  this.putpostingspostingId(req, res, next);
+  module.exports.putpostingspostingId(req, res, next);
 };
