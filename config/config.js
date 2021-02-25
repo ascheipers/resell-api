@@ -21,6 +21,7 @@ module.exports = {
     "password": DB_PASSWORD,
     "database": "resell_prod",
     "host": DB_HOST,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "use_env_variable": "DATABASE_URL"
   }
 }
