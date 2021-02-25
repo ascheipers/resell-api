@@ -22,6 +22,9 @@ module.exports = {
     "database": "resell_prod",
     "host": DB_HOST,
     "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": true
+    },
     "use_env_variable": "DATABASE_URL"
   }
 }
