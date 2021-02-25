@@ -45,6 +45,7 @@ paths:
               examples: {}
       operationId: get-users-userId
       description: Show the details of a specific user.
+      security: []
   /users:
     post:
       summary: Create New User
@@ -52,10 +53,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Base_Show.v1'
         '400':
           description: Bad Request
           content:
@@ -74,6 +71,7 @@ paths:
             schema:
               $ref: '#/components/schemas/User_Create.v1'
       description: Allows users to register and provide their personal information.
+      security: []
   /login:
     post:
       summary: Login With User Credentials
@@ -172,6 +170,7 @@ paths:
           in: query
           name: date
           description: Creation date of a posting.
+      security: []
     post:
       summary: Create New Posting
       tags: []
@@ -224,6 +223,7 @@ paths:
                 $ref: '#/components/schemas/Error_Show.v1'
       operationId: get-postings-postingId
       description: Detailed view of a posting.
+      security: []
     delete:
       summary: Delete Existing Posting
       tags: []
@@ -314,6 +314,7 @@ paths:
                 $ref: '#/components/schemas/Error_Show.v1'
       operationId: get-postings-postingId-images
       description: List of posting images.
+      security: []
     post:
       summary: Upload New Image
       tags: []
@@ -371,6 +372,7 @@ paths:
                 $ref: '#/components/schemas/Error_Show.v1'
       operationId: get-postings-postingId-images-imageId
       description: Detailed view of a specific posting image.
+      security: []
     delete:
       summary: Delete Posting Image
       tags: []
@@ -736,9 +738,9 @@ components:
           profilePicture: >-
             https://cdn.scheipe.rs/resell/profileImages/da3352ac-4f2d-4828-8371-a90c36cc3c33.jpg
   securitySchemes:
-    Token - 1:
+    Token1:
       type: http
       scheme: bearer
       description: 'Token in header starting with "Bearer" (e.g.: "Bearer 59a371548...").'
 security:
-  - Token - 1: []
+  - Token1: []
