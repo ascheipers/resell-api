@@ -61,7 +61,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    askingPrice: DataTypes.DECIMAL(7,2),
+    askingPrice: {
+      type: DataTypes.DECIMAL(7,2),
+      get(...args) {
+        const value = this.getDataValue(args[0]);
+        return value === null ? null : parseFloat(value);
+      }
+    },
     deliveryType: DataTypes.ENUM('shipping', 'pickup'),
     createdAt: {
       type: DataTypes.DATE,

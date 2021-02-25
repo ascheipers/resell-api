@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const request = require('supertest');
-const expressApp = require('../src/app');
-const patterns = require('./utils').patterns;
+const expressApp = require('../../src/app');
+const patterns = require('../utils').patterns;
 
 describe('POST /users', () => {
   const userData = {
