@@ -19,23 +19,24 @@ function login(loginData, user){
   return token;
 }
 
-module.exports.postlogin = function postlogin(req, res, next) {
+module.exports.postlogin = async function postlogin(req, res, next) {
   const loginData = req.undefined.value;
+  const searchOptions = {};
 
   try {
     if ('alias' in loginData) {
-      models.User.findOne({ where: { alias: loginData.alias }}).then(user => {
-        const token = login(loginData, user);
-        res.send({ token });
-      })
+      searchOptions.alias = loginData.alias;
     } else if ('email' in loginData) {
-      models.User.findOne({ where: { email: loginData.email }}).then(user => {
-        const token = login(loginData, user);
-        res.send({ token });
-      })
+      searchOptions.email = loginData.email;
     } else {
       throw 'Have to provide either alias or email to login.'
     }
+    const user = await models.User.findOne({ where: searchOptions });
+    if (user === null) {
+      throw 'Something went wrong when logging in.'
+    }
+    const token = login(loginData, user);
+    res.send({ token });
   } catch (error) {
     res.status(400).send({ errorCode: 'E400', errorMessage: error });
   }
