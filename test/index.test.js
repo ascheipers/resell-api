@@ -12,6 +12,7 @@ describe('API Endpoint Tests', () => {
   require('./endpoints/users.post.test');
   require('./endpoints/login.post.test');
   require('./endpoints/postings.post.test');
+  require('./endpoints/postings.get.test');
 
   after(() => {
     const { IMG_PATH } = require('../src/util/settings');

@@ -56,12 +56,20 @@ module.exports.getpostings = function getpostings(req, res, next) {
   }
 
   if (useSearch) {
-    models.Posting.findAll({ where: searchFields }).then(postings => {
-      res.send(postings);
+    models.Posting.findAll({ where: searchFields, include: 'images' }).then(postings => {
+      const result = [];
+      postings.forEach(posting => {
+        result.push(posting.toJSON());
+      });
+      res.send(result);
     });
   } else {
-    models.Posting.findAll().then(postings => {
-      res.send(postings);
+    models.Posting.findAll({ include: 'images' }).then(postings => {
+      const result = [];
+      postings.forEach(posting => {
+        result.push(posting.toJSON());
+      });
+      res.send(result);
     });
   }
 };

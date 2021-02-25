@@ -27,7 +27,6 @@
     "js-yaml": "^3.3.0",
     "jsonwebtoken": "^8.5.1",
     "oas-tools": "^2.1.4",
-    "openapi-enforcer": "^1.13.3",
     "pg": "^8.5.1",
     "sequelize": "^6.5.0",
     "uuid": "^8.3.2"
