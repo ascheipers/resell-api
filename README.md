@@ -95,3 +95,11 @@ Start Server
 ```sh
 npm start
 ```
+
+## Testing
+
+Run npm test script:
+
+```sh
+npm run test
+```
