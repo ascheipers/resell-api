@@ -34,22 +34,25 @@ models.Image.findAll({ where: { 'posting': req.postingId.value }}).then(images =
   });
 };
 
-module.exports.postpostingspostingIdimages = function postpostingspostingIdimages(req, res, next) {
+module.exports.postpostingspostingIdimages = async function postpostingspostingIdimages(req, res, next) {
   try {
     if (req.rawBody) {
-      FileType.fromBuffer(req.rawBody).then(ft => {
-        if (ft.mime === 'image/jpeg') {
-          try {
-            storeImage(req.rawBody, IMG_PATH, req.postingId.value).then(image => {
-              res.send(image);
-            });
-          } catch (error) {
-            throw'There was a problem processing your image.';
-          }
-        } else {
-          throw 'Image must be of a JPEG.';
+      const posting = await models.Posting.findByPk(req.postingId.value);
+      if (posting === null) {
+        throw 'Posting does not exits.';
+      }
+
+      const ft = await FileType.fromBuffer(req.rawBody)
+      if (ft !== undefined && ft.mime === 'image/jpeg') {
+        try {
+          const image = await storeImage(req.rawBody, IMG_PATH, req.postingId.value)
+          res.send(image);
+        } catch (error) {
+          throw'There was a problem processing your image.';
         }
-      })
+      } else {
+        throw 'Image must be of a JPEG.';
+      }
     } else {
       throw 'No image in body found.';
     }
