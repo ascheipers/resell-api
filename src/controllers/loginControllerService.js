@@ -36,7 +36,7 @@ module.exports.postlogin = async function postlogin(req, res, next) {
       throw 'Something went wrong when logging in.'
     }
     const token = login(loginData, user);
-    res.send({ token });
+    res.send({ token, id: user.id });
   } catch (error) {
     res.status(400).send({ errorCode: 'E400', errorMessage: error });
   }
